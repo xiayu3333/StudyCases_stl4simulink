@@ -1,0 +1,1178 @@
+[
+    {
+        "reqid": "Auto-08",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "A gear increase from first to fourth in under 10secs, ending in an RPM above 4500 within 2 seconds of that, should result in a vehicle speed above 120.",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "198d8630-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-05",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "When shifting into any gear, there should be no shift from that gear to any other gear within 2.5sec.",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "198dad40-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-03",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "There should be no transition from gear two to gear one and back to gear two in less than 2.5 sec.",
+        "comments": "[ ]((g2 ∧ Xg1) → [ ]_(0,2.5]¬g2)\nIf g2 ∧ Xg1, shall satisfy in 2.5 seconds not gear != 2",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "198dd450-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-05",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "When the air brakes actuate, the acceleration magnitude should increase in a single timestep by a factor greater than AB_ACC = 4 m/s^2 in the future",
+        "comments": "When the ACS actuates, there should be a physical response from the environment. If not, the ACS has malfunctioned.",
+        "fulltext": "if Act = 1 Acc_Magnitude shall within 5 ticks satisfy Acc_Mag > 4 ",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "Act",
+                    "Acc_Mag"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(Act = 1)",
+            "qualifier_word": "if",
+            "pre_condition": "(Act = 1)",
+            "conditionTextRange": [
+                0,
+                9
+            ],
+            "component_name": "Acc_Magnitude",
+            "componentTextRange": [
+                11,
+                23
+            ],
+            "duration": [
+                "5"
+            ],
+            "timingTextRange": [
+                31,
+                44
+            ],
+            "post_condition": "(Acc_Mag > 4)",
+            "responseTextRange": [
+                46,
+                64
+            ],
+            "ft": "((LAST V (((! <b><i>(Act = 1)</i></b>) & ((! LAST) & (X <b><i>(Act = 1)</i></b>))) -> (X ((F[<=<b><i>5</i></b>] <b><i>(Acc_Mag > 4)</i></b>) | (F[<<b><i>5</i></b>] LAST))))) & (<b><i>(Act = 1)</i></b> -> ((F[<=<b><i>5</i></b>] <b><i>(Acc_Mag > 4)</i></b>) | (F[<<b><i>5</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>5</i></b>] ((<b><i>(Act = 1)</i></b> & ((Y (! <b><i>(Act = 1)</i></b>)) | FTP)) & (! <b><i>(Acc_Mag > 4)</i></b>))) -> (O[<<b><i>5</i></b>] (FTP | <b><i>(Acc_Mag > 4)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(Act = 1)</i></b>) & ((! LAST) & (X <b><i>(Act = 1)</i></b>))) -> (X ((F[<=<b><i>5</i></b>] <b><i>(Acc_Mag > 4)</i></b>) | (F[<<b><i>5</i></b>] LAST))))) & (<b><i>(Act = 1)</i></b> -> ((F[<=<b><i>5</i></b>] <b><i>(Acc_Mag > 4)</i></b>) | (F[<<b><i>5</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>5</i></b>] ((<b><i>(Act = 1)</i></b> & ((Y (! <b><i>(Act = 1)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(Acc_Mag > 4)</i></b>))) -> (O[<<b><i>5</i></b>] ((! (Y TRUE)) | <b><i>(Acc_Mag > 4)</i></b>))))",
+            "component": "<b><i>Acc_Magnitude</i></b>",
+            "CoCoSpecCode": "(H((OT(5,5,( ( (Act = 1) and ( ( Y ( not (Act = 1) ) ) or FTP ) ) and ( not (Acc_Mag > 4) ) ))) => (OT(5-1,0,( FTP or (Acc_Mag > 4) )))))",
+            "diagramVariables": "TC = <b><i>(Act = 1)</i></b>,  n = <b><i>5</i></b>, Response = <b><i>(Acc_Mag > 4)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(Act = 1)</i></b> is true and any point in the interval where <b><i>(Act = 1)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>5</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>5</i></b>). If the interval ends sooner than trigger+<b><i>5</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198e2270-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-06",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical velocity should never be constant for 3 timesteps in a row",
+        "comments": "If VelV stops changing over time, the CPU or BAR has malfunctioned.",
+        "fulltext": "if ROC_VelV = 0, RateOfChange_VelV shall within 3 ticks satisfy ROC_VelV != 0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "ROC_VelV"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(ROC_VelV = 0)",
+            "qualifier_word": "if",
+            "pre_condition": "(ROC_VelV = 0)",
+            "conditionTextRange": [
+                0,
+                15
+            ],
+            "component_name": "RateOfChange_VelV",
+            "componentTextRange": [
+                17,
+                33
+            ],
+            "duration": [
+                "3"
+            ],
+            "timingTextRange": [
+                41,
+                54
+            ],
+            "post_condition": "(ROC_VelV != 0)",
+            "responseTextRange": [
+                56,
+                76
+            ],
+            "ft": "((LAST V (((! <b><i>(ROC_VelV = 0)</i></b>) & ((! LAST) & (X <b><i>(ROC_VelV = 0)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_VelV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_VelV = 0)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_VelV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_VelV = 0)</i></b> & ((Y (! <b><i>(ROC_VelV = 0)</i></b>)) | FTP)) & (! <b><i>(ROC_VelV != 0)</i></b>))) -> (O[<<b><i>3</i></b>] (FTP | <b><i>(ROC_VelV != 0)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(ROC_VelV = 0)</i></b>) & ((! LAST) & (X <b><i>(ROC_VelV = 0)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_VelV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_VelV = 0)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_VelV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_VelV = 0)</i></b> & ((Y (! <b><i>(ROC_VelV = 0)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(ROC_VelV != 0)</i></b>))) -> (O[<<b><i>3</i></b>] ((! (Y TRUE)) | <b><i>(ROC_VelV != 0)</i></b>))))",
+            "component": "<b><i>RateOfChange_VelV</i></b>",
+            "CoCoSpecCode": "(H((OT(3,3,( ( (ROC_VelV = 0) and ( ( Y ( not (ROC_VelV = 0) ) ) or FTP ) ) and ( not (ROC_VelV not= 0) ) ))) => (OT(3-1,0,( FTP or (ROC_VelV not= 0) )))))",
+            "diagramVariables": "TC = <b><i>(ROC_VelV = 0)</i></b>,  n = <b><i>3</i></b>, Response = <b><i>(ROC_VelV != 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(ROC_VelV = 0)</i></b> is true and any point in the interval where <b><i>(ROC_VelV = 0)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>3</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>3</i></b>). If the interval ends sooner than trigger+<b><i>3</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198e2271-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-06",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "The vertical velocity exceeding VELV_TRIG = 100 m/s means that in the future vertical acceleration will become negative while in the boost state",
+        "comments": "If the rocket takes off, it should at the very end of the boost state detect a negative AccV corresponding to the motor burnout.",
+        "fulltext": "if State = 1 & VelV > 100, NovaSomniumRocket shall within 126 ticks satisfy AccV <0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "VelV",
+                    "AccV"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 1 & VelV > 100)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 1 & VelV > 100)",
+            "conditionTextRange": [
+                0,
+                25
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                27,
+                43
+            ],
+            "duration": [
+                "126"
+            ],
+            "timingTextRange": [
+                51,
+                66
+            ],
+            "post_condition": "(AccV < 0)",
+            "responseTextRange": [
+                68,
+                82
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 1 & VelV > 100)</i></b>) & ((! LAST) & (X <b><i>(State = 1 & VelV > 100)</i></b>))) -> (X ((F[<=<b><i>126</i></b>] <b><i>(AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))) & (<b><i>(State = 1 & VelV > 100)</i></b> -> ((F[<=<b><i>126</i></b>] <b><i>(AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>126</i></b>] ((<b><i>(State = 1 & VelV > 100)</i></b> & ((Y (! <b><i>(State = 1 & VelV > 100)</i></b>)) | FTP)) & (! <b><i>(AccV < 0)</i></b>))) -> (O[<<b><i>126</i></b>] (FTP | <b><i>(AccV < 0)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 1 & VelV > 100)</i></b>) & ((! LAST) & (X <b><i>(State = 1 & VelV > 100)</i></b>))) -> (X ((F[<=<b><i>126</i></b>] <b><i>(AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))) & (<b><i>(State = 1 & VelV > 100)</i></b> -> ((F[<=<b><i>126</i></b>] <b><i>(AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>126</i></b>] ((<b><i>(State = 1 & VelV > 100)</i></b> & ((Y (! <b><i>(State = 1 & VelV > 100)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(AccV < 0)</i></b>))) -> (O[<<b><i>126</i></b>] ((! (Y TRUE)) | <b><i>(AccV < 0)</i></b>))))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((OT(126,126,( ( (State = 1 and VelV > 100) and ( ( Y ( not (State = 1 and VelV > 100) ) ) or FTP ) ) and ( not (AccV < 0) ) ))) => (OT(126-1,0,( FTP or (AccV < 0) )))))",
+            "diagramVariables": "TC = <b><i>(State = 1 & VelV > 100)</i></b>,  n = <b><i>126</i></b>, Response = <b><i>(AccV < 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 1 & VelV > 100)</i></b> is true and any point in the interval where <b><i>(State = 1 & VelV > 100)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>126</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>126</i></b>). If the interval ends sooner than trigger+<b><i>126</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198e7090-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-02",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "BAR shall not experience a rate of\nchange per time step greater than DEL_PRES = 250 Pa for more than 3 timesteps in a row",
+        "comments": "An change in pressure somewhat larger than expected over multiple timesteps in a row indicates a barometer error or unexpected flight pattern.",
+        "fulltext": "if ROC_Pres > 250/1000000, RateOfChange_Pres shall within 3 ticks satisfy ROC_Pres <= 250/1000000",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "ROC_Pres"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(ROC_Pres > 250 / 1000000)",
+            "qualifier_word": "if",
+            "pre_condition": "(ROC_Pres > 250 / 1000000)",
+            "conditionTextRange": [
+                0,
+                25
+            ],
+            "component_name": "RateOfChange_Pres",
+            "componentTextRange": [
+                27,
+                43
+            ],
+            "duration": [
+                "3"
+            ],
+            "timingTextRange": [
+                51,
+                64
+            ],
+            "post_condition": "(ROC_Pres <= 250 / 1000000)",
+            "responseTextRange": [
+                66,
+                96
+            ],
+            "ft": "((LAST V (((! <b><i>(ROC_Pres > 250 / 1000000)</i></b>) & ((! LAST) & (X <b><i>(ROC_Pres > 250 / 1000000)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_Pres <= 250 / 1000000)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_Pres > 250 / 1000000)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_Pres <= 250 / 1000000)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_Pres > 250 / 1000000)</i></b> & ((Y (! <b><i>(ROC_Pres > 250 / 1000000)</i></b>)) | FTP)) & (! <b><i>(ROC_Pres <= 250 / 1000000)</i></b>))) -> (O[<<b><i>3</i></b>] (FTP | <b><i>(ROC_Pres <= 250 / 1000000)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(ROC_Pres > 250 / 1000000)</i></b>) & ((! LAST) & (X <b><i>(ROC_Pres > 250 / 1000000)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_Pres <= 250 / 1000000)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_Pres > 250 / 1000000)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_Pres <= 250 / 1000000)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_Pres > 250 / 1000000)</i></b> & ((Y (! <b><i>(ROC_Pres > 250 / 1000000)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(ROC_Pres <= 250 / 1000000)</i></b>))) -> (O[<<b><i>3</i></b>] ((! (Y TRUE)) | <b><i>(ROC_Pres <= 250 / 1000000)</i></b>))))",
+            "component": "<b><i>RateOfChange_Pres</i></b>",
+            "CoCoSpecCode": "(H((OT(3,3,( ( (ROC_Pres > 250 / 1000000) and ( ( Y ( not (ROC_Pres > 250 / 1000000) ) ) or FTP ) ) and ( not (ROC_Pres <= 250 / 1000000) ) ))) => (OT(3-1,0,( FTP or (ROC_Pres <= 250 / 1000000) )))))",
+            "diagramVariables": "TC = <b><i>(ROC_Pres > 250 / 1000000)</i></b>,  n = <b><i>3</i></b>, Response = <b><i>(ROC_Pres <= 250 / 1000000)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(ROC_Pres > 250 / 1000000)</i></b> is true and any point in the interval where <b><i>(ROC_Pres > 250 / 1000000)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>3</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>3</i></b>). If the interval ends sooner than trigger+<b><i>3</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198e97a0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-02",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "When the rocket is in an coasting state, within 46 seconds it will be in a descending state",
+        "comments": "The rocket should not stay in the coast state longer than expected",
+        "fulltext": "if State = 2 NovaSomniumRocket shall within 920 ticks satisfy State = 3 ",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 2)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 2)",
+            "conditionTextRange": [
+                0,
+                11
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                13,
+                29
+            ],
+            "duration": [
+                "920"
+            ],
+            "timingTextRange": [
+                37,
+                52
+            ],
+            "post_condition": "(State = 3)",
+            "responseTextRange": [
+                54,
+                70
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 2)</i></b>) & ((! LAST) & (X <b><i>(State = 2)</i></b>))) -> (X ((F[<=<b><i>920</i></b>] <b><i>(State = 3)</i></b>) | (F[<<b><i>920</i></b>] LAST))))) & (<b><i>(State = 2)</i></b> -> ((F[<=<b><i>920</i></b>] <b><i>(State = 3)</i></b>) | (F[<<b><i>920</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>920</i></b>] ((<b><i>(State = 2)</i></b> & ((Y (! <b><i>(State = 2)</i></b>)) | FTP)) & (! <b><i>(State = 3)</i></b>))) -> (O[<<b><i>920</i></b>] (FTP | <b><i>(State = 3)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 2)</i></b>) & ((! LAST) & (X <b><i>(State = 2)</i></b>))) -> (X ((F[<=<b><i>920</i></b>] <b><i>(State = 3)</i></b>) | (F[<<b><i>920</i></b>] LAST))))) & (<b><i>(State = 2)</i></b> -> ((F[<=<b><i>920</i></b>] <b><i>(State = 3)</i></b>) | (F[<<b><i>920</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>920</i></b>] ((<b><i>(State = 2)</i></b> & ((Y (! <b><i>(State = 2)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(State = 3)</i></b>))) -> (O[<<b><i>920</i></b>] ((! (Y TRUE)) | <b><i>(State = 3)</i></b>))))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((OT(920,920,( ( (State = 2) and ( ( Y ( not (State = 2) ) ) or FTP ) ) and ( not (State = 3) ) ))) => (OT(920-1,0,( FTP or (State = 3) )))))",
+            "diagramVariables": "TC = <b><i>(State = 2)</i></b>,  n = <b><i>920</i></b>, Response = <b><i>(State = 3)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 2)</i></b> is true and any point in the interval where <b><i>(State = 2)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>920</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>920</i></b>). If the interval ends sooner than trigger+<b><i>920</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198ebeb0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-03",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical velocity shall not exceed VELV_MAX = 536 m/s (max anticipated is 500 m/s)",
+        "comments": "If a VelV greater than 536 m/s is detected, the measurement is incorrect due to the physical limitations of the rocket motor.",
+        "fulltext": "NovaSomniumRocket shall always satisfy VelV < 536",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "VelV"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(VelV < 536)",
+            "responseTextRange": [
+                31,
+                48
+            ],
+            "ft": "(LAST V <b><i>(VelV < 536)</i></b>)",
+            "pt": "(H <b><i>(VelV < 536)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(VelV < 536)</i></b>)",
+            "ptExpanded": "(H <b><i>(VelV < 536)</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((VelV < 536)))",
+            "diagramVariables": "Response = <b><i>(VelV < 536)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198ebeb1-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-07",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Once the rocket enters the boost state, the rocket shall remain in the boost state until at least 5.7 seconds have passed (90% of theoretical burntime)",
+        "comments": "The boost state needs to last for a minimum expected amount of time, otherwise the system may have switched to coasting prematurely.",
+        "fulltext": "if State = 1, NovaSomniumRocket shall until BoostStateTmr > 5700 satisfy State = 1",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "until",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "BoostStateTmr"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 1)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 1)",
+            "conditionTextRange": [
+                0,
+                12
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                14,
+                30
+            ],
+            "stop_condition": "(BoostStateTmr > 5700)",
+            "timingTextRange": [
+                38,
+                63
+            ],
+            "post_condition": "(State = 1)",
+            "responseTextRange": [
+                65,
+                81
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((<b><i>(BoostStateTmr > 5700)</i></b> V (<b><i>(State = 1)</i></b> | <b><i>(BoostStateTmr > 5700)</i></b>)) | (LAST V <b><i>(State = 1)</i></b>))))) & (<b><i>(State = 1)</i></b> -> ((<b><i>(BoostStateTmr > 5700)</i></b> V (<b><i>(State = 1)</i></b> | <b><i>(BoostStateTmr > 5700)</i></b>)) | (LAST V <b><i>(State = 1)</i></b>))))",
+            "pt": "(H ((H (! <b><i>(State = 1)</i></b>)) | (((! <b><i>(BoostStateTmr > 5700)</i></b>) S ((! <b><i>(BoostStateTmr > 5700)</i></b>) & (<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | FTP)))) -> <b><i>(State = 1)</i></b>)))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((<b><i>(BoostStateTmr > 5700)</i></b> V (<b><i>(State = 1)</i></b> | <b><i>(BoostStateTmr > 5700)</i></b>)) | (LAST V <b><i>(State = 1)</i></b>))))) & (<b><i>(State = 1)</i></b> -> ((<b><i>(BoostStateTmr > 5700)</i></b> V (<b><i>(State = 1)</i></b> | <b><i>(BoostStateTmr > 5700)</i></b>)) | (LAST V <b><i>(State = 1)</i></b>))))",
+            "ptExpanded": "(H ((H (! <b><i>(State = 1)</i></b>)) | (((! <b><i>(BoostStateTmr > 5700)</i></b>) S ((! <b><i>(BoostStateTmr > 5700)</i></b>) & (<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | (! (Y TRUE)))))) -> <b><i>(State = 1)</i></b>)))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((H( not (State = 1))) or ((SI( ((State = 1) and ((pre ( not (State = 1))) or FTP)), ( not (BoostStateTmr > 5700)) )) => (State = 1))))",
+            "diagramVariables": "TC = <b><i>(State = 1)</i></b>, SC = <b><i>(BoostStateTmr > 5700)</i></b>, Response = <b><i>(State = 1)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 1)</i></b> is true and any point in the interval where <b><i>(State = 1)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must remain true until (but not necessarily including) the point where the stop condition holds, or to the end of the interval. If the stop condition never occurs, RES must hold until the end of the scope, or forever.  If the stop condition holds at the trigger, the requirement is satisfied.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_until_satisfaction.svg"
+        },
+        "_id": "198ee5c0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-01",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "The ACS shall not actuate before the rocket has attained a minimum height H_LOW, where H_LOW = (275m+1865m) MSL. The altitude shall also not read greater than H_HIGH = (275m + 10,505m) MSL",
+        "comments": "The motor's theoretical burn time is 6.33 seconds, and the theoretical altitude gain in this time is 1865 m. 10,505m is the theoretical apogee without ACS actuation. This spec serves to help prevent the ACS from actuating during boost using altitude.",
+        "fulltext": "NovaSomniumRocket shall always satisfy Alt < 10780 & (Act = 0 => Alt >2140)",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "Alt",
+                    "Act"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(Alt < 10780 & ( Act = 0 => Alt > 2140 ))",
+            "responseTextRange": [
+                31,
+                74
+            ],
+            "ft": "(LAST V <b><i>(Alt < 10780 & ( Act = 0 -> Alt > 2140 ))</i></b>)",
+            "pt": "(H <b><i>(Alt < 10780 & ( Act = 0 -> Alt > 2140 ))</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(Alt < 10780 & ( Act = 0 -> Alt > 2140 ))</i></b>)",
+            "ptExpanded": "(H <b><i>(Alt < 10780 & ( Act = 0 -> Alt > 2140 ))</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((Alt < 10780 and ( Act = 0 => Alt > 2140 ))))",
+            "diagramVariables": "Response = <b><i>(Alt < 10780 & ( Act = 0 => Alt > 2140 ))</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198f0cd0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-03",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "BAR shall not experience a rate of\nchange per time step greater than DEL_PRES_MAX = 500 Pa",
+        "comments": "An uncharacteristicly large change in pressure indicates a barometer error or unexpected flight pattern.",
+        "fulltext": "RateOfChange_Pres shall always satisfy ROC_Pres < 500/1000000",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "ROC_Pres"
+                ],
+                "modes": []
+            },
+            "component_name": "RateOfChange_Pres",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(ROC_Pres < 500 / 1000000)",
+            "responseTextRange": [
+                31,
+                60
+            ],
+            "ft": "(LAST V <b><i>(ROC_Pres < 500 / 1000000)</i></b>)",
+            "pt": "(H <b><i>(ROC_Pres < 500 / 1000000)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(ROC_Pres < 500 / 1000000)</i></b>)",
+            "ptExpanded": "(H <b><i>(ROC_Pres < 500 / 1000000)</i></b>)",
+            "component": "<b><i>RateOfChange_Pres</i></b>",
+            "CoCoSpecCode": "(H((ROC_Pres < 500 / 1000000)))",
+            "diagramVariables": "Response = <b><i>(ROC_Pres < 500 / 1000000)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198f33e0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-06",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical acceleration shall not exceed ACCV2_MAX = 0 m/s^2 while in the coasting state",
+        "comments": "The only forces in this state of the flight result from drag and gravity, all of which should result in AccV",
+        "fulltext": "NovaSomniumRocket shall always satisfy State = 2 => AccV < 0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "AccV"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(State = 2 => AccV < 0)",
+            "responseTextRange": [
+                31,
+                59
+            ],
+            "ft": "(LAST V <b><i>(State = 2 -> AccV < 0)</i></b>)",
+            "pt": "(H <b><i>(State = 2 -> AccV < 0)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(State = 2 -> AccV < 0)</i></b>)",
+            "ptExpanded": "(H <b><i>(State = 2 -> AccV < 0)</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((State = 2 => AccV < 0)))",
+            "diagramVariables": "Response = <b><i>(State = 2 => AccV < 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198f5af0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-02",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "The ACS shall not actuate before the rocket has flown for a minimum time T_LOWER = 6.33 seconds or after the rocket has flown for T_UPPER = 45.5 seconds (with reference to the switch to ascending)",
+        "comments": "The ACS should not actuate unless it is in the coast phase, and these time bounds correspond to the time the rocket should theoretically be in the coast phase.",
+        "fulltext": "NovaSomniumRocket shall always satisfy Act = 0 => (Time < 45500 & Time  > 6330)",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "Act",
+                    "Time"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(Act = 0 => ( Time < 45500 & Time > 6330 ))",
+            "responseTextRange": [
+                31,
+                78
+            ],
+            "ft": "(LAST V <b><i>(Act = 0 -> ( Time < 45500 & Time > 6330 ))</i></b>)",
+            "pt": "(H <b><i>(Act = 0 -> ( Time < 45500 & Time > 6330 ))</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(Act = 0 -> ( Time < 45500 & Time > 6330 ))</i></b>)",
+            "ptExpanded": "(H <b><i>(Act = 0 -> ( Time < 45500 & Time > 6330 ))</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((Act = 0 => ( Time < 45500 and Time > 6330 ))))",
+            "diagramVariables": "Response = <b><i>(Act = 0 => ( Time < 45500 & Time > 6330 ))</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198f5af1-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-04",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Once the rocket enters the boost state, the rocket shall remain in the boost state until vertical acceleration becomes negative. This should occur within 6.3 seconds",
+        "comments": "The rocket should not enter the coast state while the motor is still burning. When the motor stops burning, AccV should become negative.",
+        "fulltext": "if State = 1 NovaSomniumRocket shall within 126 ticks satisfy State = 1 & AccV < 0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "AccV"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 1)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 1)",
+            "conditionTextRange": [
+                0,
+                11
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                13,
+                29
+            ],
+            "duration": [
+                "126"
+            ],
+            "timingTextRange": [
+                37,
+                52
+            ],
+            "post_condition": "(State = 1 & AccV < 0)",
+            "responseTextRange": [
+                54,
+                81
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((F[<=<b><i>126</i></b>] <b><i>(State = 1 & AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))) & (<b><i>(State = 1)</i></b> -> ((F[<=<b><i>126</i></b>] <b><i>(State = 1 & AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>126</i></b>] ((<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | FTP)) & (! <b><i>(State = 1 & AccV < 0)</i></b>))) -> (O[<<b><i>126</i></b>] (FTP | <b><i>(State = 1 & AccV < 0)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((F[<=<b><i>126</i></b>] <b><i>(State = 1 & AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))) & (<b><i>(State = 1)</i></b> -> ((F[<=<b><i>126</i></b>] <b><i>(State = 1 & AccV < 0)</i></b>) | (F[<<b><i>126</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>126</i></b>] ((<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(State = 1 & AccV < 0)</i></b>))) -> (O[<<b><i>126</i></b>] ((! (Y TRUE)) | <b><i>(State = 1 & AccV < 0)</i></b>))))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((OT(126,126,( ( (State = 1) and ( ( Y ( not (State = 1) ) ) or FTP ) ) and ( not (State = 1 and AccV < 0) ) ))) => (OT(126-1,0,( FTP or (State = 1 and AccV < 0) )))))",
+            "diagramVariables": "TC = <b><i>(State = 1)</i></b>,  n = <b><i>126</i></b>, Response = <b><i>(State = 1 & AccV < 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 1)</i></b> is true and any point in the interval where <b><i>(State = 1)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>126</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>126</i></b>). If the interval ends sooner than trigger+<b><i>126</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198fa910-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-01",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "BAR shall not experience a rate of\nchange per time step greater than DEL_TEMP_MAX= 0.05 deg C",
+        "comments": "An uncharacteristicly large change in temperature indicates a barometer error.",
+        "fulltext": "RateOfChange_Temp shall always satisfy ROC_Temp < 0.05",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "ROC_Temp"
+                ],
+                "modes": []
+            },
+            "component_name": "RateOfChange_Temp",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(ROC_Temp < 0.05)",
+            "responseTextRange": [
+                31,
+                53
+            ],
+            "ft": "(LAST V <b><i>(ROC_Temp < 0.05)</i></b>)",
+            "pt": "(H <b><i>(ROC_Temp < 0.05)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(ROC_Temp < 0.05)</i></b>)",
+            "ptExpanded": "(H <b><i>(ROC_Temp < 0.05)</i></b>)",
+            "component": "<b><i>RateOfChange_Temp</i></b>",
+            "CoCoSpecCode": "(H((ROC_Temp < 0.05)))",
+            "diagramVariables": "Response = <b><i>(ROC_Temp < 0.05)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "198fd020-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-03",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "The rocket shall follow a planar trajectory within which the angle of acceleration relative to the horizontal can be calculated. When the angle of acceleration jumps past ANGSPOT = 100deg during ascent state, it implies the motor has burnt out and the state should change within half a second to coasting",
+        "comments": "The angle of acceleration changes when the motor stops producing thrust, leaving only drag and gravitational forces. angle = acos(AccZ/sqrt(acc_x^2 + acc_y^2 + acc_z^2))",
+        "fulltext": "if State = 1 & angle > 100 NovaSomniumRocket shall within 10 ticks satisfy State = 2",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "angle"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 1 & angle > 100)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 1 & angle > 100)",
+            "conditionTextRange": [
+                0,
+                25
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                27,
+                43
+            ],
+            "duration": [
+                "10"
+            ],
+            "timingTextRange": [
+                51,
+                65
+            ],
+            "post_condition": "(State = 2)",
+            "responseTextRange": [
+                67,
+                83
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 1 & angle > 100)</i></b>) & ((! LAST) & (X <b><i>(State = 1 & angle > 100)</i></b>))) -> (X ((F[<=<b><i>10</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>10</i></b>] LAST))))) & (<b><i>(State = 1 & angle > 100)</i></b> -> ((F[<=<b><i>10</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>10</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>10</i></b>] ((<b><i>(State = 1 & angle > 100)</i></b> & ((Y (! <b><i>(State = 1 & angle > 100)</i></b>)) | FTP)) & (! <b><i>(State = 2)</i></b>))) -> (O[<<b><i>10</i></b>] (FTP | <b><i>(State = 2)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 1 & angle > 100)</i></b>) & ((! LAST) & (X <b><i>(State = 1 & angle > 100)</i></b>))) -> (X ((F[<=<b><i>10</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>10</i></b>] LAST))))) & (<b><i>(State = 1 & angle > 100)</i></b> -> ((F[<=<b><i>10</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>10</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>10</i></b>] ((<b><i>(State = 1 & angle > 100)</i></b> & ((Y (! <b><i>(State = 1 & angle > 100)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(State = 2)</i></b>))) -> (O[<<b><i>10</i></b>] ((! (Y TRUE)) | <b><i>(State = 2)</i></b>))))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((OT(10,10,( ( (State = 1 and angle > 100) and ( ( Y ( not (State = 1 and angle > 100) ) ) or FTP ) ) and ( not (State = 2) ) ))) => (OT(10-1,0,( FTP or (State = 2) )))))",
+            "diagramVariables": "TC = <b><i>(State = 1 & angle > 100)</i></b>,  n = <b><i>10</i></b>, Response = <b><i>(State = 2)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 1 & angle > 100)</i></b> is true and any point in the interval where <b><i>(State = 1 & angle > 100)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>10</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>10</i></b>). If the interval ends sooner than trigger+<b><i>10</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "198ff730-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-04",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical velocity shall remain positive during Boost and Coast States",
+        "comments": "Vertical velocity must be positive during the boost and coast states, otherwise either the measurement is incorrect or a serious failure has occurred",
+        "fulltext": "NovaSomniumRocket shall always satisfy ( State = 1 | State = 2) => VelV > 0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "VelV"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(( State = 1 | State = 2 ) => VelV > 0)",
+            "responseTextRange": [
+                31,
+                74
+            ],
+            "ft": "(LAST V <b><i>(( State = 1 | State = 2 ) -> VelV > 0)</i></b>)",
+            "pt": "(H <b><i>(( State = 1 | State = 2 ) -> VelV > 0)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(( State = 1 | State = 2 ) -> VelV > 0)</i></b>)",
+            "ptExpanded": "(H <b><i>(( State = 1 | State = 2 ) -> VelV > 0)</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((( State = 1 or State = 2 ) => VelV > 0)))",
+            "diagramVariables": "Response = <b><i>(( State = 1 | State = 2 ) => VelV > 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "19901e40-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-04",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "CPU clock shall not exceed a timestep change greater than DT_SOFTMAX = 55ms for more than 3 timesteps in a row",
+        "comments": "The cycle time needs to be relatively consistent for R2U2 specifications to perform correctly. Latency may cause incorrect verdicts.",
+        "fulltext": "if Increase_Time> 55 RateOfIncrease_Time shall within 3 ticks satisfy  Increase_Time <= 55",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "Increase_Time"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(Increase_Time > 55)",
+            "qualifier_word": "if",
+            "pre_condition": "(Increase_Time > 55)",
+            "conditionTextRange": [
+                0,
+                19
+            ],
+            "component_name": "RateOfIncrease_Time",
+            "componentTextRange": [
+                21,
+                39
+            ],
+            "duration": [
+                "3"
+            ],
+            "timingTextRange": [
+                47,
+                60
+            ],
+            "post_condition": "(Increase_Time <= 55)",
+            "responseTextRange": [
+                62,
+                89
+            ],
+            "ft": "((LAST V (((! <b><i>(Increase_Time > 55)</i></b>) & ((! LAST) & (X <b><i>(Increase_Time > 55)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(Increase_Time <= 55)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(Increase_Time > 55)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(Increase_Time <= 55)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>3</i></b>] ((<b><i>(Increase_Time > 55)</i></b> & ((Y (! <b><i>(Increase_Time > 55)</i></b>)) | FTP)) & (! <b><i>(Increase_Time <= 55)</i></b>))) -> (O[<<b><i>3</i></b>] (FTP | <b><i>(Increase_Time <= 55)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(Increase_Time > 55)</i></b>) & ((! LAST) & (X <b><i>(Increase_Time > 55)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(Increase_Time <= 55)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(Increase_Time > 55)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(Increase_Time <= 55)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>3</i></b>] ((<b><i>(Increase_Time > 55)</i></b> & ((Y (! <b><i>(Increase_Time > 55)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(Increase_Time <= 55)</i></b>))) -> (O[<<b><i>3</i></b>] ((! (Y TRUE)) | <b><i>(Increase_Time <= 55)</i></b>))))",
+            "component": "<b><i>RateOfIncrease_Time</i></b>",
+            "CoCoSpecCode": "(H((OT(3,3,( ( (Increase_Time > 55) and ( ( Y ( not (Increase_Time > 55) ) ) or FTP ) ) and ( not (Increase_Time <= 55) ) ))) => (OT(3-1,0,( FTP or (Increase_Time <= 55) )))))",
+            "diagramVariables": "TC = <b><i>(Increase_Time > 55)</i></b>,  n = <b><i>3</i></b>, Response = <b><i>(Increase_Time <= 55)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(Increase_Time > 55)</i></b> is true and any point in the interval where <b><i>(Increase_Time > 55)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>3</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>3</i></b>). If the interval ends sooner than trigger+<b><i>3</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "19904550-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "CS-01",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "When the rocket enters the boost state, the state will change to coasting within 7 seconds",
+        "comments": "The rocket should not stay in the boost state longer than expected",
+        "fulltext": "if State = 1 NovaSomniumRocket shall  within 140 ticks satisfy State = 2 ",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(State = 1)",
+            "qualifier_word": "if",
+            "pre_condition": "(State = 1)",
+            "conditionTextRange": [
+                0,
+                11
+            ],
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                13,
+                29
+            ],
+            "duration": [
+                "140"
+            ],
+            "timingTextRange": [
+                38,
+                53
+            ],
+            "post_condition": "(State = 2)",
+            "responseTextRange": [
+                55,
+                71
+            ],
+            "ft": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((F[<=<b><i>140</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>140</i></b>] LAST))))) & (<b><i>(State = 1)</i></b> -> ((F[<=<b><i>140</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>140</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>140</i></b>] ((<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | FTP)) & (! <b><i>(State = 2)</i></b>))) -> (O[<<b><i>140</i></b>] (FTP | <b><i>(State = 2)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(State = 1)</i></b>) & ((! LAST) & (X <b><i>(State = 1)</i></b>))) -> (X ((F[<=<b><i>140</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>140</i></b>] LAST))))) & (<b><i>(State = 1)</i></b> -> ((F[<=<b><i>140</i></b>] <b><i>(State = 2)</i></b>) | (F[<<b><i>140</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>140</i></b>] ((<b><i>(State = 1)</i></b> & ((Y (! <b><i>(State = 1)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(State = 2)</i></b>))) -> (O[<<b><i>140</i></b>] ((! (Y TRUE)) | <b><i>(State = 2)</i></b>))))",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((OT(140,140,( ( (State = 1) and ( ( Y ( not (State = 1) ) ) or FTP ) ) and ( not (State = 2) ) ))) => (OT(140-1,0,( FTP or (State = 2) )))))",
+            "diagramVariables": "TC = <b><i>(State = 1)</i></b>,  n = <b><i>140</i></b>, Response = <b><i>(State = 2)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(State = 1)</i></b> is true and any point in the interval where <b><i>(State = 1)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>140</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>140</i></b>). If the interval ends sooner than trigger+<b><i>140</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "19906c60-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "OR-05",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical acceleration shall not exceed ACCV1_MAX = 129 m/s^2 (max anticipated is 120 m/s^2) while in the ascending state",
+        "comments": "The maximum acceleration the motor is theoretically expected to produce should not be significantly less than the measurement during flight. A larger than expected vertical acceleration implies a measurement error or a serious issue with the motor performance.",
+        "fulltext": "NovaSomniumRocket shall always satisfy State = 1 => AccV < 129",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "State",
+                    "AccV"
+                ],
+                "modes": []
+            },
+            "component_name": "NovaSomniumRocket",
+            "componentTextRange": [
+                0,
+                16
+            ],
+            "timingTextRange": [
+                24,
+                29
+            ],
+            "post_condition": "(State = 1 => AccV < 129)",
+            "responseTextRange": [
+                31,
+                61
+            ],
+            "ft": "(LAST V <b><i>(State = 1 -> AccV < 129)</i></b>)",
+            "pt": "(H <b><i>(State = 1 -> AccV < 129)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(State = 1 -> AccV < 129)</i></b>)",
+            "ptExpanded": "(H <b><i>(State = 1 -> AccV < 129)</i></b>)",
+            "component": "<b><i>NovaSomniumRocket</i></b>",
+            "CoCoSpecCode": "(H((State = 1 => AccV < 129)))",
+            "diagramVariables": "Response = <b><i>(State = 1 => AccV < 129)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "19909370-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "RC-05",
+        "parent_reqid": "",
+        "project": "SACLaunch",
+        "rationale": "Vertical acceleration should never be constant for 3 timesteps in a row",
+        "comments": "If AccV stops changing over time, the IMU has malfunctioned.",
+        "fulltext": "if ROC_AccV = 0, RateOfChange_AccV shall within 3 ticks satisfy ROC_AccV != 0",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "regular",
+            "timing": "within",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "ROC_AccV"
+                ],
+                "modes": []
+            },
+            "regular_condition": "(ROC_AccV = 0)",
+            "qualifier_word": "if",
+            "pre_condition": "(ROC_AccV = 0)",
+            "conditionTextRange": [
+                0,
+                15
+            ],
+            "component_name": "RateOfChange_AccV",
+            "componentTextRange": [
+                17,
+                33
+            ],
+            "duration": [
+                "3"
+            ],
+            "timingTextRange": [
+                41,
+                54
+            ],
+            "post_condition": "(ROC_AccV != 0)",
+            "responseTextRange": [
+                56,
+                76
+            ],
+            "ft": "((LAST V (((! <b><i>(ROC_AccV = 0)</i></b>) & ((! LAST) & (X <b><i>(ROC_AccV = 0)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_AccV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_AccV = 0)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_AccV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "pt": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_AccV = 0)</i></b> & ((Y (! <b><i>(ROC_AccV = 0)</i></b>)) | FTP)) & (! <b><i>(ROC_AccV != 0)</i></b>))) -> (O[<<b><i>3</i></b>] (FTP | <b><i>(ROC_AccV != 0)</i></b>))))",
+            "ftExpanded": "((LAST V (((! <b><i>(ROC_AccV = 0)</i></b>) & ((! LAST) & (X <b><i>(ROC_AccV = 0)</i></b>))) -> (X ((F[<=<b><i>3</i></b>] <b><i>(ROC_AccV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))) & (<b><i>(ROC_AccV = 0)</i></b> -> ((F[<=<b><i>3</i></b>] <b><i>(ROC_AccV != 0)</i></b>) | (F[<<b><i>3</i></b>] LAST))))",
+            "ptExpanded": "(H ((O[=<b><i>3</i></b>] ((<b><i>(ROC_AccV = 0)</i></b> & ((Y (! <b><i>(ROC_AccV = 0)</i></b>)) | (! (Y TRUE)))) & (! <b><i>(ROC_AccV != 0)</i></b>))) -> (O[<<b><i>3</i></b>] ((! (Y TRUE)) | <b><i>(ROC_AccV != 0)</i></b>))))",
+            "component": "<b><i>RateOfChange_AccV</i></b>",
+            "CoCoSpecCode": "(H((OT(3,3,( ( (ROC_AccV = 0) and ( ( Y ( not (ROC_AccV = 0) ) ) or FTP ) ) and ( not (ROC_AccV not= 0) ) ))) => (OT(3-1,0,( FTP or (ROC_AccV not= 0) )))))",
+            "diagramVariables": "TC = <b><i>(ROC_AccV = 0)</i></b>,  n = <b><i>3</i></b>, Response = <b><i>(ROC_AccV != 0)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval if <b><i>(ROC_AccV = 0)</i></b> is true and any point in the interval where <b><i>(ROC_AccV = 0)</i></b> becomes true (from false).\nREQUIRES: for every trigger, RES must hold at some point with distance <= <b><i>3</i></b> from the trigger (i.e., at trigger, trigger+1, ..., or trigger+<b><i>3</i></b>). If the interval ends sooner than trigger+<b><i>3</i></b>, then RES need not hold.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_regular_within_satisfaction.svg"
+        },
+        "_id": "1990e190-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-04",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "After shifting into gear one, there should be no shift from gear one to any other gear within 2.5 sec.",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "199108a0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-06 ",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "If engine speed is always less than 4500,  then vehicle speed can not exceed 120 in less than 4 sec.",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "19912fb0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-01",
+        "parent_reqid": "01",
+        "project": "AutoTransmission",
+        "rationale": "The engine and the vehicle speed never reach 5000 and 160, resp.",
+        "comments": "",
+        "fulltext": "Engine shall always satisfy EngineRPM <5000",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "EngineRPM"
+                ],
+                "modes": []
+            },
+            "component_name": "Engine",
+            "componentTextRange": [
+                0,
+                5
+            ],
+            "timingTextRange": [
+                13,
+                18
+            ],
+            "post_condition": "(EngineRPM < 5000)",
+            "responseTextRange": [
+                20,
+                42
+            ],
+            "ft": "(LAST V <b><i>(EngineRPM < 5000)</i></b>)",
+            "pt": "(H <b><i>(EngineRPM < 5000)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(EngineRPM < 5000)</i></b>)",
+            "ptExpanded": "(H <b><i>(EngineRPM < 5000)</i></b>)",
+            "component": "<b><i>Engine</i></b>",
+            "CoCoSpecCode": "(H((EngineRPM < 5000)))",
+            "diagramVariables": "Response = <b><i>(EngineRPM < 5000)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "199156c0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-07",
+        "parent_reqid": "",
+        "project": "AutoTransmission",
+        "rationale": "Within 4 sec the vehicle speed is above 160 and from that point on the engine speed is always less than 4500.",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "19917dd0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "PID-01",
+        "parent_reqid": "",
+        "project": "PID",
+        "rationale": "overshoot",
+        "comments": "",
+        "fulltext": "",
+        "semantics": {},
+        "_id": "1991a4e0-c211-11eb-954b-31b8306a4625"
+    },
+    {
+        "reqid": "Auto-02",
+        "parent_reqid": "01",
+        "project": "AutoTransmission",
+        "rationale": "The engine and the vehicle speed never reach 5000 and 160, resp.",
+        "comments": "",
+        "fulltext": "Vehicle shall always satisfy VehicleSpeed<160",
+        "semantics": {
+            "type": "nasa",
+            "scope": {
+                "type": "null"
+            },
+            "condition": "null",
+            "timing": "always",
+            "response": "satisfaction",
+            "variables": {
+                "regular": [
+                    "VehicleSpeed"
+                ],
+                "modes": []
+            },
+            "component_name": "Vehicle",
+            "componentTextRange": [
+                0,
+                6
+            ],
+            "timingTextRange": [
+                14,
+                19
+            ],
+            "post_condition": "(VehicleSpeed < 160)",
+            "responseTextRange": [
+                21,
+                44
+            ],
+            "ft": "(LAST V <b><i>(VehicleSpeed < 160)</i></b>)",
+            "pt": "(H <b><i>(VehicleSpeed < 160)</i></b>)",
+            "ftExpanded": "(LAST V <b><i>(VehicleSpeed < 160)</i></b>)",
+            "ptExpanded": "(H <b><i>(VehicleSpeed < 160)</i></b>)",
+            "component": "<b><i>Vehicle</i></b>",
+            "CoCoSpecCode": "(H((VehicleSpeed < 160)))",
+            "diagramVariables": "Response = <b><i>(VehicleSpeed < 160)</i></b>.",
+            "description": "ENFORCED: in the interval defined by the entire execution.\nTRIGGER: first point in the interval.\nREQUIRES: for every trigger, RES must hold at all time points between (and including) the trigger and the end of the interval.",
+            "diagram": "_media/user-interface/examples/svgDiagrams/null_null_always_satisfaction.svg"
+        },
+        "_id": "1991cbf0-c211-11eb-954b-31b8306a4625"
+    }
+]

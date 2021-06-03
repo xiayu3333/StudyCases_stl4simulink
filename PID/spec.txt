@@ -1,0 +1,44 @@
+/*********************************
+ * Definition of constant values *
+ *********************************/
+
+T = 10;
+r = 5;
+c = 3;
+//c = 2; // Error
+
+zeta = 0.5;
+//zeta = 0.1; // Error
+mu = 0.95;
+steadyStateValue = 10;
+
+s = 3;
+beta = 0.02;
+
+a = 0.01;
+
+%%
+
+/******************************
+ * Definition of STL Formulas *
+ ******************************/
+
+//////////
+// TEST //
+//////////
+
+[]_[0, 1] { x > 1 };
+[]_[0, 5] { x > 1 };
+<>_[0, 1] { x > 1 };
+<>_[2, 3] { x == 0 };
+[]_[0.5, 1.5] { x == 0 };
+
+//////////
+
+Overshoot : <>_[0, T] { step(x_ref, r) AND <> { x - x_ref > c } };
+
+RiseTime : <>_[0, T] { step(x_ref, r) AND []_[0,zeta] { x < mu * steadyStateValue } };
+
+SettlingTime : <>_[0, T] { step(x_ref, r) AND <>_[s, T] {abs(x - x_ref) > beta * x_ref} };
+
+SteadyState : <>_[T, T] { abs(x - x_ref) > a };

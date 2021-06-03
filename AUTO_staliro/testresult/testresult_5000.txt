@@ -1,0 +1,90 @@
+Run number 1 / 1 
+ Initial robustness value ==> 329.5619
+Best ==> 245.4586
+Best ==> 242.9081
+Best ==> 241.1905
+Best ==> 239.1735
+Best ==> 237.0133
+Best ==> 236.8379
+Best ==> 236.8344
+Best ==> 236.6214
+Best ==> 236.5794
+Best ==> 236.5772
+Best ==> 236.5274
+Best ==> 236.5216
+50 Acceptance Ratio=0.46, beta=-15, displacement bound ratio=0.75
+ iteration : 100, Best robustness found : 236.5216
+100 Acceptance Ratio=0.49, beta=-15, displacement bound ratio=0.75
+Best ==> 234.8614
+Best ==> 234.0575
+Best ==> 233.7367
+150 Acceptance Ratio=0.40667, beta=-10, displacement bound ratio=0.68182
+Best ==> 233.7154
+Best ==> 233.6519
+Best ==> 233.6188
+Best ==> 233.477
+Best ==> 233.4758
+Best ==> 233.4678
+Best ==> 233.46
+200 Acceptance Ratio=0.24, beta=-6.6667, displacement bound ratio=0.61983
+250 Acceptance Ratio=0.52, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 300, Best robustness found : 233.46
+300 Acceptance Ratio=0.5, beta=-6.6667, displacement bound ratio=0.61983
+350 Acceptance Ratio=0.46667, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 400, Best robustness found : 233.46
+400 Acceptance Ratio=0.505, beta=-6.6667, displacement bound ratio=0.61983
+450 Acceptance Ratio=0.512, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 500, Best robustness found : 233.46
+500 Acceptance Ratio=0.49333, beta=-6.6667, displacement bound ratio=0.61983
+550 Acceptance Ratio=0.49714, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 600, Best robustness found : 233.46
+600 Acceptance Ratio=0.495, beta=-6.6667, displacement bound ratio=0.61983
+650 Acceptance Ratio=0.49778, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 700, Best robustness found : 233.46
+700 Acceptance Ratio=0.494, beta=-6.6667, displacement bound ratio=0.61983
+750 Acceptance Ratio=0.48909, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 800, Best robustness found : 233.46
+800 Acceptance Ratio=0.495, beta=-6.6667, displacement bound ratio=0.61983
+850 Acceptance Ratio=0.49538, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 900, Best robustness found : 233.46
+900 Acceptance Ratio=0.49286, beta=-6.6667, displacement bound ratio=0.61983
+950 Acceptance Ratio=0.49067, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 1000, Best robustness found : 233.46
+1000 Acceptance Ratio=0.4925, beta=-6.6667, displacement bound ratio=0.61983
+1050 Acceptance Ratio=0.48471, beta=-6.6667, displacement bound ratio=0.61983
+ iteration : 1100, Best robustness found : 233.46
+1100 Acceptance Ratio=0.48, beta=-6.6667, displacement bound ratio=0.61983
+1150 Acceptance Ratio=0.47579, beta=-6.6667, displacement bound ratio=0.61983
+Best ==> 232.8788
+ iteration : 1200, Best robustness found : 232.8788
+1200 Acceptance Ratio=0.453, beta=-6.6667, displacement bound ratio=0.61983
+Best ==> 232.6993
+1250 Acceptance Ratio=0.4419, beta=-4.4444, displacement bound ratio=0.56349
+Best ==> 232.6907
+1300 Acceptance Ratio=0.48, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1350, Best robustness found : 232.6907
+1350 Acceptance Ratio=0.49, beta=-4.4444, displacement bound ratio=0.56349
+1400 Acceptance Ratio=0.46667, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1450, Best robustness found : 232.6907
+1450 Acceptance Ratio=0.455, beta=-4.4444, displacement bound ratio=0.56349
+1500 Acceptance Ratio=0.476, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1550, Best robustness found : 232.6907
+1550 Acceptance Ratio=0.48, beta=-4.4444, displacement bound ratio=0.56349
+1600 Acceptance Ratio=0.48857, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1650, Best robustness found : 232.6907
+1650 Acceptance Ratio=0.495, beta=-4.4444, displacement bound ratio=0.56349
+1700 Acceptance Ratio=0.5, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1750, Best robustness found : 232.6907
+1750 Acceptance Ratio=0.51, beta=-4.4444, displacement bound ratio=0.56349
+1800 Acceptance Ratio=0.51273, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1850, Best robustness found : 232.6907
+1850 Acceptance Ratio=0.50833, beta=-4.4444, displacement bound ratio=0.56349
+Best ==> 232.6182
+Best ==> 232.5586
+Best ==> 232.3363
+Best ==> 232.2029
+1900 Acceptance Ratio=0.48769, beta=-4.4444, displacement bound ratio=0.56349
+ iteration : 1950, Best robustness found : 232.2029
+1950 Acceptance Ratio=0.47429, beta=-4.4444, displacement bound ratio=0.56349
+2000 Acceptance Ratio=0.47067, beta=-4.4444, displacement bound ratio=0.56349
+  Running time of run 1: 388.5892 sec
